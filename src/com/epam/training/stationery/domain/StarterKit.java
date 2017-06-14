@@ -9,6 +9,8 @@ public class StarterKit {
 
     private Stationery stationery;
 
+    List<Stationery> stationeryList;
+
     public StarterKit() {
     }
 
@@ -22,5 +24,13 @@ public class StarterKit {
 
     public void setStationery(Stationery stationery) {
         this.stationery = stationery;
+    }
+
+    public List<Stationery> getStationeryList() {
+        return stationeryList;
+    }
+
+    public void setStationeryList(List<Stationery> stationeryList) {
+        this.stationeryList = stationeryList;
     }
 }

@@ -14,65 +14,76 @@ import java.util.List;
 public class StarterKitServiceImpl implements StarterKitService<StarterKit> {
 
     @Override
-    public List<StarterKit> create() {
+    public StarterKit create() {
 
-        List<StarterKit> starterKitList = new ArrayList<StarterKit>();
+        List<Stationery> stationeryList = new ArrayList<Stationery>();
 
-        starterKitList.add(new StarterKit(new Folder("FOLDER", 100)));
-        starterKitList.add(new StarterKit(new File("FILE", 25, 100)));
-        starterKitList.add(new StarterKit(new File("FILE", 35, 100)));
-        starterKitList.add(new StarterKit(new Marker("MARKER", 15, "black")));
-        starterKitList.add(new StarterKit(new Pen("PEN", 5, "blue")));
+        stationeryList.add(new Folder("FOLDER", 100));
+        stationeryList.add(new File("FILE", 25, 100));
+        stationeryList.add(new File("FILE", 35, 100));
+        stationeryList.add(new Marker("MARKER", 15, "black"));
+        stationeryList.add(new Pen("PEN", 5, "blue"));
 
         Pencil pencil = new Pencil("PENCIL", 2);
         StickNote stickNote = new StickNote();
         stickNote.setMessage(new Message("It's a color pencil"));
         pencil.setStickNote(stickNote);
-        starterKitList.add(new StarterKit(pencil));
+        stationeryList.add(pencil);
 
-        starterKitList.add(new StarterKit(new StickNote("NOTES", 55)));
+        stationeryList.add(new StickNote("NOTES", 55));
 
-        return starterKitList;
+        StarterKit starterKit = new StarterKit();
+        starterKit.setStationeryList(stationeryList);
+
+        return starterKit;
     }
 
     @Override
-    public List<StarterKit> sortByName(List<StarterKit> starterKitList) {
-        Collections.sort(starterKitList, new Comparator<StarterKit>() {
-            @Override
-            public int compare(StarterKit o1, StarterKit o2) {
-                return o1.getStationery().getName().compareToIgnoreCase(o2.getStationery().getName());
-            }
-        });
+    public List<Stationery> sortByName(List<Stationery> stationeryList) {
+        Collections.sort(stationeryList, getNameComparator());
 
-        return starterKitList;
+        return stationeryList;
     }
 
     @Override
-    public List<StarterKit> sortByPrice(List<StarterKit> starterKitList) {
-        Collections.sort(starterKitList, new Comparator<StarterKit>() {
-            @Override
-            public int compare(StarterKit o1, StarterKit o2) {
-                return o1.getStationery().getPrice()- o2.getStationery().getPrice();
-            }
-        });
+    public List<Stationery> sortByPrice(List<Stationery> stationeryList) {
+        Collections.sort(stationeryList, getPriceComparator());
 
-        return starterKitList;
+        return stationeryList;
     }
 
     @Override
-    public List<StarterKit> sortByNameAndPrice(List<StarterKit> starterKitList) {
-        Collections.sort(starterKitList, new Comparator<StarterKit>() {
+    public List<Stationery> sortByNameAndPrice(List<Stationery> stationeryList) {
+        Collections.sort(stationeryList, new Comparator<Stationery>() {
             @Override
-            public int compare(StarterKit o1, StarterKit o2) {
-                int result = o1.getStationery().getName().compareToIgnoreCase(o2.getStationery().getName());
+            public int compare(Stationery o1, Stationery o2) {
+                int result = o1.getName().compareToIgnoreCase(o2.getName());
 
                 if(result != 0 ){
                     return result;
                 }
-                return o1.getStationery().getPrice()- o2.getStationery().getPrice();
+                return o1.getPrice()- o2.getPrice();
             }
         });
 
-        return starterKitList;
+        return stationeryList;
+    }
+
+    private Comparator<Stationery> getNameComparator(){
+        return new Comparator<Stationery>() {
+            @Override
+            public int compare(Stationery o1, Stationery o2) {
+                return o1.getName().compareToIgnoreCase(o2.getName());
+            }
+        };
+    }
+
+    private Comparator<Stationery> getPriceComparator(){
+        return new Comparator<Stationery>() {
+            @Override
+            public int compare(Stationery o1, Stationery o2) {
+                return o1.getPrice()- o2.getPrice();
+            }
+        };
     }
 }
